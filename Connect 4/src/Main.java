@@ -9,9 +9,9 @@ public class Main {
             new GridType("Spunchbop", "S", true),
             new GridType("Patrice", "P", true),
     };
-    public static int gridXSize = 3;
+    public static int gridXSize = 7;
 
-    public static int gridYSize = 3;
+    public static int gridYSize = 6;
 
     public static void main(String[] args) {
         // the board stores all the objects
@@ -22,6 +22,11 @@ public class Main {
         Scanner console = new Scanner(System.in);
 
         boolean playerHasWon = false;
+
+        C4Bot[] bots = {
+                new CarsonTron2000(getGridTypeID("S"),getGridTypeID("P"),getGridTypeID("X"),getGridTypeID(" "),board),
+                new C4Bot(getGridTypeID("P"),getGridTypeID("S"),getGridTypeID("X"),getGridTypeID(" "),board)
+        };
 
         // main game loop :D
         while(!playerHasWon) {
@@ -59,7 +64,14 @@ public class Main {
             System.out.println(gridTypes[currentPlayer].name+"'s turn... gimme an X value!");
 
             //get the x input
-            int xInput = Integer.parseInt(console.nextLine());
+            int xInput = bots[currentPlayer-2].update();
+
+            /*
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }*/
 
             // set y input to 0, since we don't really need that
             int yInput = 0;
