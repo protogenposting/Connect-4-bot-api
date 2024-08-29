@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -6,18 +7,35 @@ public class Main {
     public static GridType[] gridTypes = {
             new GridType("Empty", " ", false),
             new GridType("PlayableSpace", "X", false),
-            new GridType("Spunchbop", "S", true),
-            new GridType("Patrice", "P", true),
+            new GridType("CarsonTron", "S", true),
+            new GridType("RandoBot", "P", true),
     };
     public static int gridXSize = 7;
 
     public static int gridYSize = 6;
 
     public static void main(String[] args) {
+        int number = 0;
+        double wins = 0;
+        while(number<100)
+        {
+            if(run_game()==2)
+            {
+                wins+=1;
+            }
+            number++;
+        }
+        System.out.println(wins/100);
+    }
+
+    public static int run_game(){
         // the board stores all the objects
         int[][] board = new int[gridYSize][gridXSize];
+        int winner = 0;
+        // teehee!
+        Random generator = new Random();
         // current player is the current grid type that we will place
-        int currentPlayer = 0;
+        int currentPlayer = generator.nextInt(2,4);
         // funny scanner :3
         Scanner console = new Scanner(System.in);
 
@@ -66,12 +84,11 @@ public class Main {
             //get the x input
             int xInput = bots[currentPlayer-2].update();
 
-            /*
             try {
-                Thread.sleep(1000);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }*/
+            }
 
             // set y input to 0, since we don't really need that
             int yInput = 0;
@@ -143,7 +160,7 @@ public class Main {
                                     foundInThisLine++;
                                     checkX+=directionX;
                                     checkY+=directionY;
-                                    if(checkX<0||checkX>gridXSize-2||checkY<0||checkY>gridYSize-2)
+                                    if(checkX<0||checkX>gridXSize-1||checkY<0||checkY>gridYSize-1)
                                     {
                                         break;
                                     }
@@ -152,7 +169,8 @@ public class Main {
                                 if(foundInThisLine>=4)
                                 {
                                     playerHasWon = true;
-                                    System.out.println(gridTypes[playerChecked].name+" has won!");
+                                    winner=currentPlayer;
+                                    System.out.println(gridTypes[playerChecked].name+"("+playerChecked+") has won!");
                                     print_board(board);
                                 }
                             }
@@ -168,6 +186,7 @@ public class Main {
                 currentPlayer=0;
             }
         }
+        return winner;
     }
 
     /**

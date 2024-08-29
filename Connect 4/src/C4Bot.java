@@ -15,9 +15,15 @@ public class C4Bot {
         this.empty = empty;
         this.board = board;
     }
-
+    int xValue=0;
     public int update(){
         Random random = new Random();
         return random.nextInt(0,board[0].length);
+        /*xValue++;
+        if(xValue>=board.length)
+        {
+            xValue=0;
+        }
+        return xValue;*/
     }
 }
